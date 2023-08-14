@@ -3,9 +3,9 @@ package com.doohee.dockerex.service;
 import com.doohee.dockerex.dto.UserDto;
 import com.doohee.dockerex.entity.User;
 import com.doohee.dockerex.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;

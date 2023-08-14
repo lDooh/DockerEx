@@ -8,7 +8,7 @@ RUN ./mvnw dependency:resolve
 
 COPY src ./src
 
-RUN ./mvnw package
+RUN ./mvnw -DskipTests=true package
 
 CMD ["java", "-jar", "./target/DockerEx-0.0.1-SNAPSHOT.jar"]
 

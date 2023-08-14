@@ -1,0 +1,44 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mymysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: dockerex
+      MYSQL_USER: exuser
+      MYSQL_PASSWORD: 12345678
+    networks:
+      - spring-network
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    restart:
+      always
+  spring-boot-app:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: excontainer
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      SPRING_DATASOURCE_URL: jdbc:mysql://mymysql:3306/dockerex
+      SPRING_DATASOURCE_USERNAME: exuser
+      SPRING_DATASOURCE_PASSWORD: 12345678
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQL8Dialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    networks:
+      - spring-network
+    restart:
+      always
+
+networks:
+  spring-network:
+
+volumes:
+  mysql-data:
